@@ -1,78 +1,78 @@
-libname Song "/userdata07/room284/data_source/ANALYSIS/Song";
-/*song.BR_NCS_09_10_ALL ¿¸√ºµ•¿Ã≈Õ*/
-/*SONG.TEMP¥¬ 70%µ•¿Ã≈Õ/ SONG.TEMP_70¥¬ C50,D05∫∏¡§ DATA*/
-/*SONG.TEMP_30¥¬ 30%µ•¿Ã≈Õ/ SONG.TEST_30¥¬ C50,D05∫∏¡§ DATA*/
+libname SAS "/userdata07/room284/data_source/ANALYSIS";
+/*SAS.BR_NCS_09_10_ALL Ï†ÑÏ≤¥Îç∞Ïù¥ÌÑ∞*/
+/*SAS.TEMPÎäî 70%Îç∞Ïù¥ÌÑ∞/ SAS.TEMP_70Îäî C50,D05Î≥¥Ï†ï DATA*/
+/*SAS.TEMP_30Îäî 30%Îç∞Ïù¥ÌÑ∞/ SAS.TEST_30Îäî C50,D05Î≥¥Ï†ï DATA*/
 
-DATA SONG.TEMP_TEST; SET SONG.TEMP;
+DATA SAS.TEMP_TEST; SET SAS.TEMP;
 IF C50=1 THEN BC=1; 
 ELSE IF C50=0 AND D05=1 THEN DELETE;
 ELSE IF C50=0 AND D05=0 THEN BC=0;
 RUN;
-PROC FREQ DATA=SONG.TEMP_TEST; TABLE BC; RUN; /*BC=0 N=2468706. BC=1 N=30471*/
-/*RISK FACTOR ∞·√¯»Æ¿Œ*/
-PROC FREQ DATA=SONG.TEMP_TEST;
+PROC FREQ DATA=SAS.TEMP_TEST; TABLE BC; RUN; /*BC=0 N=2468706. BC=1 N=30471*/
+/*RISK FACTOR Í≤∞Ï∏°ÌôïÏù∏*/
+PROC FREQ DATA=SAS.TEMP_TEST;
 TABLE CBR_PCH_AMT QC_PHX_BBR_YN QC_MNC_AGE MNS_YN_1 MNP_AGE QC_DLV_FRQ QC_BRFD_DRT Q_SMK_YN Q_DRK_FRQ_V09N EXER FAM_CBR BC G1E_BMI/LIST MISSING;
 RUN;
 
 
 /***************************************************************************************************************************************/
-/*ø¨º”∫Øºˆ «•¡ÿ»≠*/
-PROC STANDARD DATA=SONG.TEMP_TEST MEAN=0 STD=1 OUT=SONG.TEMP_TEST2;
+/*Ïó∞ÏÜçÎ≥ÄÏàò ÌëúÏ§ÄÌôî*/
+PROC STANDARD DATA=SAS.TEMP_TEST MEAN=0 STD=1 OUT=SAS.TEMP_TEST2;
 VAR QC_MNC_AGE MNP_AGE EXER G1E_BMI Q_DRK_FRQ_V09N; RUN;
-PROC PRINT DATA=SONG.TEMP_TEST2 (OBS=100); RUN;
-PROC MEANS DATA=SONG.TEMP_TEST2;
+PROC PRINT DATA=SAS.TEMP_TEST2 (OBS=100); RUN;
+PROC MEANS DATA=SAS.TEMP_TEST2;
 VAR QC_MNC_AGE MNP_AGE EXER G1E_BMI Q_DRK_FRQ_V09N; RUN;
 
-/*π¸¡÷«¸ CATEGORY 2∞≥/ MNS_YN_1.FAM_CBR*/
-DATA SONG.TEMP_TEST2; SET SONG.TEMP_TEST2;
+/*Î≤îÏ£ºÌòï CATEGORY 2Í∞ú/ MNS_YN_1.FAM_CBR*/
+DATA SAS.TEMP_TEST2; SET SAS.TEMP_TEST2;
 IF MNS_YN_1=1 THEN MNS_YN_2=0;
 ELSE MNS_YN_2=1; RUN;
-PROC FREQ DATA=SONG.TEMP_TEST2; TABLE MNS_YN_2; RUN;
+PROC FREQ DATA=SAS.TEMP_TEST2; TABLE MNS_YN_2; RUN;
 
-/*π¸¡÷«¸ CATEGORY 3∞≥ ¿ÃªÛ ¥ıπÃ∫Øºˆ/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+/*Î≤îÏ£ºÌòï CATEGORY 3Í∞ú Ïù¥ÏÉÅ ÎçîÎØ∏Î≥ÄÏàò/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if CBR_PCH_AMT=1 then do; CBR_PCH_AMT_1=1; CBR_PCH_AMT_2=0; CBR_PCH_AMT_3=0; end;
 if CBR_PCH_AMT=2 then do; CBR_PCH_AMT_1=0; CBR_PCH_AMT_2=1; CBR_PCH_AMT_3=0; end;
 if CBR_PCH_AMT=3 then do; CBR_PCH_AMT_1=0; CBR_PCH_AMT_2=0; CBR_PCH_AMT_3=1; end;
 if CBR_PCH_AMT=4 then do; CBR_PCH_AMT_1=0; CBR_PCH_AMT_2=0; CBR_PCH_AMT_3=0; end; run; 
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if QC_PHX_BBR_YN=1 then do; QC_PHX_BBR_YN_1=1; QC_PHX_BBR_YN_2=0; end;
 if QC_PHX_BBR_YN=2 then do; QC_PHX_BBR_YN_1=0; QC_PHX_BBR_YN_2=1; end; 
 if QC_PHX_BBR_YN=3 then do; QC_PHX_BBR_YN_1=0; QC_PHX_BBR_YN_2=0; end; RUN;
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if QC_DLV_FRQ=1 then do; QC_DLV_FRQ_1=1; QC_DLV_FRQ_2=0; end;
 if QC_DLV_FRQ=2 then do; QC_DLV_FRQ_1=0; QC_DLV_FRQ_2=1; end;
 if QC_DLV_FRQ=3 then do; QC_DLV_FRQ_1=0; QC_DLV_FRQ_2=0; end; RUN;
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if QC_BRFD_DRT=1 then do; QC_BRFD_DRT_1=1; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=0; end;
 if QC_BRFD_DRT=2 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=1; QC_BRFD_DRT_3=0; end;
 if QC_BRFD_DRT=3 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=1; end;
 if QC_BRFD_DRT=4 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=0; end; run;  
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if Q_SMK_YN=1 then do; Q_SMK_YN_1=1; Q_SMK_YN_2=0; end; 
 if Q_SMK_YN=2 then do; Q_SMK_YN_1=0; Q_SMK_YN_2=1; end; 
 if Q_SMK_YN=3 then do; Q_SMK_YN_1=0; Q_SMK_YN_2=0; end; RUN;
 
-/*π¸¡÷«¸ CATEGORY 3∞≥ ¿ÃªÛ/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+/*Î≤îÏ£ºÌòï CATEGORY 3Í∞ú Ïù¥ÏÉÅ/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if CBR_PCH_AMT=1 then CBR_PCH_AMT_1=1; else CBR_PCH_AMT_1=0; 
 if CBR_PCH_AMT=2 then CBR_PCH_AMT_2=1; else CBR_PCH_AMT_2=0; 
 if CBR_PCH_AMT=3 then CBR_PCH_AMT_3=1; else CBR_PCH_AMT_3=0; 
 if CBR_PCH_AMT=4 then CBR_PCH_AMT_4=1; else CBR_PCH_AMT_4=0;run;  
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if QC_PHX_BBR_YN=1 then QC_PHX_BBR_YN_1=1; else QC_PHX_BBR_YN_1=0; 
 if QC_PHX_BBR_YN=2 then QC_PHX_BBR_YN_2=1; else QC_PHX_BBR_YN_2=0; 
 if QC_PHX_BBR_YN=3 then QC_PHX_BBR_YN_3=1; else QC_PHX_BBR_YN_3=0; RUN;
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if QC_DLV_FRQ=1 then QC_DLV_FRQ_1=1; else QC_DLV_FRQ_1=0; 
 if QC_DLV_FRQ=2 then QC_DLV_FRQ_2=1; else QC_DLV_FRQ_2=0; 
 if QC_DLV_FRQ=3 then QC_DLV_FRQ_3=1; else QC_DLV_FRQ_3=0; RUN;
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if QC_BRFD_DRT=1 then QC_BRFD_DRT_1=1; else QC_BRFD_DRT_1=0; 
 if QC_BRFD_DRT=2 then QC_BRFD_DRT_2=1; else QC_BRFD_DRT_2=0; 
 if QC_BRFD_DRT=3 then QC_BRFD_DRT_3=1; else QC_BRFD_DRT_3=0; 
 if QC_BRFD_DRT=4 then QC_BRFD_DRT_4=1; else QC_BRFD_DRT_4=0;run;  
-data SONG.TEMP_TEST2; set SONG.TEMP_TEST2;
+data SAS.TEMP_TEST2; set SAS.TEMP_TEST2;
 if Q_SMK_YN=1 then Q_SMK_YN_1=1; else Q_SMK_YN_1=0; 
 if Q_SMK_YN=2 then Q_SMK_YN_2=1; else Q_SMK_YN_2=0; 
 if Q_SMK_YN=3 then Q_SMK_YN_3=1; else Q_SMK_YN_3=0; RUN;
@@ -81,103 +81,103 @@ if Q_SMK_YN=3 then Q_SMK_YN_3=1; else Q_SMK_YN_3=0; RUN;
 
 
 /***************************************************************************************************************************************/
-/****************************∆Û∞Ê¿¸»ƒ µ•¿Ã≈Õ∑Œ µ˚∑Œ ∏∏µÈ±‚****************************/
-/*∆Û∞Ê¿Øπ´ ƒ´≈◊∞Ì∏Æ πŸ≤Ÿ±‚*/
-DATA SONG.TEMP_TEST3; SET SONG.TEMP_TEST;
+/****************************ÌèêÍ≤ΩÏ†ÑÌõÑ Îç∞Ïù¥ÌÑ∞Î°ú Îî∞Î°ú ÎßåÎì§Í∏∞****************************/
+/*ÌèêÍ≤ΩÏú†Î¨¥ Ïπ¥ÌÖåÍ≥†Î¶¨ Î∞îÍæ∏Í∏∞*/
+DATA SAS.TEMP_TEST3; SET SAS.TEMP_TEST;
 IF MNS_YN_1=1 THEN MNS_YN_2=0;
 ELSE MNS_YN_2=1; RUN;
-PROC FREQ DATA=SONG.TEMP_TEST3; TABLE MNS_YN_2; RUN;/*MNS_YN_2=0 1174182∞≥, MNS_YN_2=1 1324995∞≥*/
+PROC FREQ DATA=SAS.TEMP_TEST3; TABLE MNS_YN_2; RUN;/*MNS_YN_2=0 1174182Í∞ú, MNS_YN_2=1 1324995Í∞ú*/
 
-/*π¸¡÷«¸ CATEGORY 3∞≥ ¿ÃªÛ ¥ıπÃ∫Øºˆ/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
-data SONG.TEMP_TEST3; set SONG.TEMP_TEST3;
+/*Î≤îÏ£ºÌòï CATEGORY 3Í∞ú Ïù¥ÏÉÅ ÎçîÎØ∏Î≥ÄÏàò/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
+data SAS.TEMP_TEST3; set SAS.TEMP_TEST3;
 if CBR_PCH_AMT=1 then do; CBR_PCH_AMT_1=1; CBR_PCH_AMT_2=0; CBR_PCH_AMT_3=0; end;
 if CBR_PCH_AMT=2 then do; CBR_PCH_AMT_1=0; CBR_PCH_AMT_2=1; CBR_PCH_AMT_3=0; end;
 if CBR_PCH_AMT=3 then do; CBR_PCH_AMT_1=0; CBR_PCH_AMT_2=0; CBR_PCH_AMT_3=1; end;
 if CBR_PCH_AMT=4 then do; CBR_PCH_AMT_1=0; CBR_PCH_AMT_2=0; CBR_PCH_AMT_3=0; end; run; 
-data SONG.TEMP_TEST3; set SONG.TEMP_TEST3;
+data SAS.TEMP_TEST3; set SAS.TEMP_TEST3;
 if QC_PHX_BBR_YN=1 then do; QC_PHX_BBR_YN_1=1; QC_PHX_BBR_YN_2=0; end;
 if QC_PHX_BBR_YN=2 then do; QC_PHX_BBR_YN_1=0; QC_PHX_BBR_YN_2=1; end; 
 if QC_PHX_BBR_YN=3 then do; QC_PHX_BBR_YN_1=0; QC_PHX_BBR_YN_2=0; end; RUN;
-data SONG.TEMP_TEST3; set SONG.TEMP_TEST3;
+data SAS.TEMP_TEST3; set SAS.TEMP_TEST3;
 if QC_DLV_FRQ=1 then do; QC_DLV_FRQ_1=1; QC_DLV_FRQ_2=0; end;
 if QC_DLV_FRQ=2 then do; QC_DLV_FRQ_1=0; QC_DLV_FRQ_2=1; end;
 if QC_DLV_FRQ=3 then do; QC_DLV_FRQ_1=0; QC_DLV_FRQ_2=0; end; RUN;
-data SONG.TEMP_TEST3; set SONG.TEMP_TEST3;
+data SAS.TEMP_TEST3; set SAS.TEMP_TEST3;
 if QC_BRFD_DRT=1 then do; QC_BRFD_DRT_1=1; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=0; end;
 if QC_BRFD_DRT=2 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=1; QC_BRFD_DRT_3=0; end;
 if QC_BRFD_DRT=3 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=1; end;
 if QC_BRFD_DRT=4 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=0; end; run;  
-data SONG.TEMP_TEST3; set SONG.TEMP_TEST3;
+data SAS.TEMP_TEST3; set SAS.TEMP_TEST3;
 if Q_SMK_YN=1 then do; Q_SMK_YN_1=1; Q_SMK_YN_2=0; end; 
 if Q_SMK_YN=2 then do; Q_SMK_YN_1=0; Q_SMK_YN_2=1; end; 
 if Q_SMK_YN=3 then do; Q_SMK_YN_1=0; Q_SMK_YN_2=0; end; RUN;
-/*∆Û∞Ê¿¸»ƒµ•¿Ã≈Õº¬≥™¥©±‚*/
-data MNS0 MNS1; set song.temp_test3;
+/*ÌèêÍ≤ΩÏ†ÑÌõÑÎç∞Ïù¥ÌÑ∞ÏÖãÎÇòÎàÑÍ∏∞*/
+data MNS0 MNS1; set SAS.temp_test3;
 if MNS_YN_2=0 then output MNS0;
-else output MNS1; run; /*SONG.MNS0¿∫(¥¬) 1174182∞≥, SONG.MNS1¿∫(¥¬) 1324995∞≥*/
+else output MNS1; run; /*SAS.MNS0ÏùÄ(Îäî) 1174182Í∞ú, SAS.MNS1ÏùÄ(Îäî) 1324995Í∞ú*/
 
-/*****∆Û∞Ê¿¸*****/
-/*ø¨º”∫Øºˆ «•¡ÿ»≠*/
+/*****ÌèêÍ≤ΩÏ†Ñ*****/
+/*Ïó∞ÏÜçÎ≥ÄÏàò ÌëúÏ§ÄÌôî*/
 PROC STANDARD DATA=MNS0 OUT=MNS0_STD MEAN=0 STD=1;
 VAR QC_MNC_AGE MNP_AGE Q_DRK_FRQ_V09N EXER G1E_BMI; RUN;
-/*π¸¡÷«¸ ±∫¡˝∫–ºÆ*/
+/*Î≤îÏ£ºÌòï Íµ∞ÏßëÎ∂ÑÏÑù*/
 PROC FASTCLUS DATA=MNS0_STD OUT=MNS0_CLUSTER1 MAXCLUSTERS=7 MAXITER=100;
 VAR CBR_PCH_AMT_1 CBR_PCH_AMT_2 CBR_PCH_AMT_3 QC_PHX_BBR_YN_1 QC_PHX_BBR_YN_2 QC_DLV_FRQ_1 QC_DLV_FRQ_2 QC_BRFD_DRT_1 QC_BRFD_DRT_2 QC_BRFD_DRT_3 Q_SMK_YN_1 Q_SMK_YN_2 FAM_CBR; RUN;
-/*ø¨º”«¸ ±∫¡˝∫–ºÆ*/
+/*Ïó∞ÏÜçÌòï Íµ∞ÏßëÎ∂ÑÏÑù*/
 PROC FASTCLUS DATA=MNS0_STD OUT=MNS0_CLUSTER2 MAXCLUSTERS=9 MAXITER=100;
 VAR QC_MNC_AGE Q_DRK_FRQ_V09N EXER G1E_BMI; RUN;
-/*****∆Û∞Ê»ƒ*****/
-/*ø¨º”∫Øºˆ «•¡ÿ»≠*/
+/*****ÌèêÍ≤ΩÌõÑ*****/
+/*Ïó∞ÏÜçÎ≥ÄÏàò ÌëúÏ§ÄÌôî*/
 PROC STANDARD DATA=MNS1 OUT=MNS1_STD MEAN=0 STD=1;
 VAR QC_MNC_AGE MNP_AGE Q_DRK_FRQ_V09N EXER G1E_BMI; RUN;
-/*π¸¡÷«¸ ±∫¡˝∫–ºÆ*/
+/*Î≤îÏ£ºÌòï Íµ∞ÏßëÎ∂ÑÏÑù*/
 PROC FASTCLUS DATA=MNS1_STD OUT=MNS1_CLUSTER1 MAXCLUSTERS=7 MAXITER=100;
 VAR CBR_PCH_AMT_1 CBR_PCH_AMT_2 CBR_PCH_AMT_3 QC_PHX_BBR_YN_1 QC_PHX_BBR_YN_2 
 QC_DLV_FRQ_1 QC_DLV_FRQ_2 QC_BRFD_DRT_1 QC_BRFD_DRT_2 QC_BRFD_DRT_3 Q_SMK_YN_1 Q_SMK_YN_2 FAM_CBR; RUN;
-/*ø¨º”«¸ ±∫¡˝∫–ºÆ*/
+/*Ïó∞ÏÜçÌòï Íµ∞ÏßëÎ∂ÑÏÑù*/
 PROC FASTCLUS DATA=MNS1_STD OUT=MNS1_CLUSTER2 MAXCLUSTERS=7 MAXITER=100;
 VAR QC_MNC_AGE MNP_AGE Q_DRK_FRQ_V09N EXER G1E_BMI; RUN;
 /***************************************************************************************************************************************/
 
 
 /***************************************************************************************************************************************/
-/*****¿¸∫Œ π¸¡÷«¸¿∏∑Œ πŸ≤„¡÷±‚*****/
-data song.test1; set song.temp; run;
-DATA SONG.TEST_1; SET SONG.TEST1;
+/*****Ï†ÑÎ∂Ä Î≤îÏ£ºÌòïÏúºÎ°ú Î∞îÍøîÏ£ºÍ∏∞*****/
+data SAS.test1; set SAS.temp; run;
+DATA SAS.TEST_1; SET SAS.TEST1;
 IF C50=1 THEN BC=1;
 ELSE IF C50=0 AND D05=1 THEN DELETE;
 ELSE IF C50=0 AND D05=0 THEN BC=0;
 RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF 40<=AGE<50 THEN AGE1=1;
 IF 50<=AGE<60 THEN AGE1=2;
 IF 60<=AGE<70 THEN AGE1=3; RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF QC_MNC_AGE<15 THEN MNC_AGE1=1;
 ELSE MNC_AGE1=2; RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF MNP_AGE<52 THEN MNP_AGE1=1;
 ELSE MNP_AGE1=2; RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF G1E_BMI<23 THEN BMI=1;
 ELSE BMI=2; RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF Q_DRK_FRQ_V09N<1 THEN DRK_FRQ=1;
 ELSE DRK_FRQ=2; RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF EXER<7 THEN EXER1=1;
 ELSE EXER1=2; RUN;
-DATA SONG.TEST_1; SET SONG.TEST_1;
+DATA SAS.TEST_1; SET SAS.TEST_1;
 IF MNS_YN_1=1 THEN MNS_YN_2=0;
 ELSE MNS_YN_2=1; RUN;
 
 PROC SQL;
-CREATE TABLE SONG.TEST_2 AS
+CREATE TABLE SAS.TEST_2 AS
 SELECT AGE1, MNC_AGE1, MNP_AGE1, BMI, DRK_FRQ, EXER1, CBR_PCH_AMT, QC_PHX_BBR_YN, MNS_YN_2, QC_DLV_FRQ, QC_BRFD_DRT, Q_SMK_YN, FAM_CBR
-FROM SONG.TEST_1
+FROM SAS.TEST_1
 ; RUN;
-/*π¸¡÷«¸ CATEGORY 3∞≥ ¿ÃªÛ ¥ıπÃ∫Øºˆ/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
-data SONG.TEST_2; set SONG.TEST_2;
+/*Î≤îÏ£ºÌòï CATEGORY 3Í∞ú Ïù¥ÏÉÅ ÎçîÎØ∏Î≥ÄÏàò/ CBR_RCH_AMT.QC_PHX_BBR_YN,QC_DLV_FRQ,QC_BRFD_DRT,Q_SMK_YN*/
+data SAS.TEST_2; set SAS.TEST_2;
 if AGE1=1 then do; AGE1_1=1; AGE1_2=0; AGE1_3=0; end;
 if AGE1=2 then do; AGE1_1=0; AGE1_2=1; AGE1_3=0; end;
 if AGE1=3 then do; AGE1_1=0; AGE1_2=0; AGE1_3=1; end; 
@@ -203,11 +203,11 @@ if QC_BRFD_DRT=4 then do; QC_BRFD_DRT_1=0; QC_BRFD_DRT_2=0; QC_BRFD_DRT_3=0; end
 if Q_SMK_YN=1 then do; Q_SMK_YN_1=1; Q_SMK_YN_2=0; end; 
 if Q_SMK_YN=2 then do; Q_SMK_YN_1=0; Q_SMK_YN_2=1; end; 
 if Q_SMK_YN=3 then do; Q_SMK_YN_1=0; Q_SMK_YN_2=0; end; RUN;
-/*∆Û∞Ê¿¸»ƒµ•¿Ã≈Õº¬≥™¥©±‚*/
-data TEST_MNS0 TEST_MNS1; set song.TEST_2;
+/*ÌèêÍ≤ΩÏ†ÑÌõÑÎç∞Ïù¥ÌÑ∞ÏÖãÎÇòÎàÑÍ∏∞*/
+data TEST_MNS0 TEST_MNS1; set SAS.TEST_2;
 if MNS_YN_2=0 then output TEST_MNS0;
-else output TEST_MNS1; run; /*SONG.TEST_MNS0¿∫(¥¬) 1174182∞≥, SONG.TEST_MNS1¿∫(¥¬) 1324995∞≥*/
-/*∆Û∞Ê¿¸*/
+else output TEST_MNS1; run; /*SAS.TEST_MNS0ÏùÄ(Îäî) 1174182Í∞ú, SAS.TEST_MNS1ÏùÄ(Îäî) 1324995Í∞ú*/
+/*ÌèêÍ≤ΩÏ†Ñ*/
 PROC FASTCLUS DATA=TEST_MNS0 OUT=MN0OUT MAXCLUSTERS=9 MAXITER=100;
 VAR AGE1 MNC_AGE1 BMI DRK_FRQ EXER1 CBR_PCH_AMT QC_PHX_BBR_YN QC_DLV_FRQ QC_BRFD_DRT Q_SMK_YN FAM_CBR;
 RUN;
@@ -215,7 +215,7 @@ PROC FASTCLUS DATA=TEST_MNS0 OUT=MN0OUT MAXCLUSTERS=6 MAXITER=100;
 VAR AGE1_1 AGE1_2 AGE1_3 CBR_PCH_AMT_1 CBR_PCH_AMT_2 CBR_PCH_AMT_3 QC_PHX_BBR_YN_1 QC_PHX_BBR_YN_2 MNC_AGE1 QC_DLV_FRQ_1 QC_DLV_FRQ_2
 QC_BRFD_DRT_1 QC_BRFD_DRT_2 QC_BRFD_DRT_3 Q_SMK_YN_1 Q_SMK_YN_2 DRK_FRQ EXER1 BMI;
 RUN;
-/*∆‰∞Ê»ƒ*/
+/*ÌéòÍ≤ΩÌõÑ*/
 PROC FASTCLUS DATA=TEST_MNS1 OUT=MN1OUT MAXCLUSTERS=12 MAXITER=100;
 VAR AGE1 MNC_AGE1 MNP_AGE1 BMI DRK_FRQ EXER1 CBR_PCH_AMT QC_PHX_BBR_YN QC_DLV_FRQ QC_BRFD_DRT Q_SMK_YN FAM_CBR;
 RUN;
@@ -263,9 +263,9 @@ run ;
 
 
 /***************************************************************************************************************************************/
-/*********************π¸¡÷«¸ ¥ŸΩ√ ∏∏µÈ±‚*********************/
-data song.test1; set SONG.TEMP_TEST; run;
-DATA SONG.TEST1; SET SONG.TEST1;
+/*********************Î≤îÏ£ºÌòï Îã§Ïãú ÎßåÎì§Í∏∞*********************/
+data SAS.test1; set SAS.TEMP_TEST; run;
+DATA SAS.TEST1; SET SAS.TEST1;
 IF 40<=AGE<50 THEN AGE1=1; ELSE IF 50<=AGE<60 THEN AGE1=2; ELSE IF 60<=AGE<70 THEN AGE1=3;
 IF G1E_BMI<=23 THEN G1E_BMI_1=0; ELSE G1E_BMI_1=1;
 IF QC_PHX_BBR_YN=2 THEN QC_PHX_BBR_YN_1=0; ELSE IF QC_PHX_BBR_YN=3 THEN QC_PHX_BBR_YN_1=2; ELSE QC_PHX_BBR_YN_1=1;
@@ -278,40 +278,40 @@ IF Q_SMK_YN=1 THEN Q_SMK_YN_1=0; ELSE IF Q_SMK_YN=2 THEN Q_SMK_YN_1=0; ELSE Q_SM
 IF Q_DRK_FRQ_V09N=0 THEN Q_DRK_FRQ_V09N_1=0; ELSE Q_DRK_FRQ_V09N_1=1;
 IF EXER<8 THEN EXER_1=1; ELSE EXER_1=2; RUN;
 
-PROC FREQ DATA=SONG.TEST1;
+PROC FREQ DATA=SAS.TEST1;
 TABLE AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 MNS_YN_2 MNP_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
 
-/*∆Û∞Ê¿¸»ƒµ•¿Ã≈Õº¬≥™¥©±‚*/
-data SONG.TEST1_MNS0 SONG.TEST1_MNS1; set SONG.TEST1;
-if MNS_YN_2=0 then output SONG.TEST1_MNS0;
-else output SONG.TEST1_MNS1; run; /*SONG.TEST1_MNS0¿∫(¥¬) 1174182∞≥, SONG.TEST1_MNS1¿∫(¥¬) 1324995∞≥*/
-PROC FREQ DATA=SONG.TEST1_MNS0;
+/*ÌèêÍ≤ΩÏ†ÑÌõÑÎç∞Ïù¥ÌÑ∞ÏÖãÎÇòÎàÑÍ∏∞*/
+data SAS.TEST1_MNS0 SAS.TEST1_MNS1; set SAS.TEST1;
+if MNS_YN_2=0 then output SAS.TEST1_MNS0;
+else output SAS.TEST1_MNS1; run; /*SAS.TEST1_MNS0ÏùÄ(Îäî) 1174182Í∞ú, SAS.TEST1_MNS1ÏùÄ(Îäî) 1324995Í∞ú*/
+PROC FREQ DATA=SAS.TEST1_MNS0;
 TABLE MNP_AGE_1; RUN;
-PROC FREQ DATA=SONG.TEST1_MNS1;
+PROC FREQ DATA=SAS.TEST1_MNS1;
 TABLE MNP_AGE_1; RUN;
 
-/*∆Û∞Ê¿¸±∫¡˝∫–ºÆ*/
-PROC FASTCLUS DATA=SONG.TEST1_MNS0 OUT=MN0OUT_1 MAXCLUSTERS=3 MAXITER=100;
+/*ÌèêÍ≤ΩÏ†ÑÍµ∞ÏßëÎ∂ÑÏÑù*/
+PROC FASTCLUS DATA=SAS.TEST1_MNS0 OUT=MN0OUT_1 MAXCLUSTERS=3 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
-PROC FASTCLUS DATA=SONG.TEST1_MNS0 OUT=MN0OUT_2 MAXCLUSTERS=5 MAXITER=100;
+PROC FASTCLUS DATA=SAS.TEST1_MNS0 OUT=MN0OUT_2 MAXCLUSTERS=5 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
-PROC FASTCLUS DATA=SONG.TEST1_MNS0 OUT=MN0OUT_3 MAXCLUSTERS=10 MAXITER=100;
+PROC FASTCLUS DATA=SAS.TEST1_MNS0 OUT=MN0OUT_3 MAXCLUSTERS=10 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
-/*∆Û∞Ê»ƒ±∫¡˝∫–ºÆ*/
-PROC FASTCLUS DATA=SONG.TEST1_MNS1 OUT=MN1OUT_1 MAXCLUSTERS=3 MAXITER=100;
+/*ÌèêÍ≤ΩÌõÑÍµ∞ÏßëÎ∂ÑÏÑù*/
+PROC FASTCLUS DATA=SAS.TEST1_MNS1 OUT=MN1OUT_1 MAXCLUSTERS=3 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 MNP_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
-PROC FASTCLUS DATA=SONG.TEST1_MNS1 OUT=MN1OUT_2 MAXCLUSTERS=11 MAXITER=100;
+PROC FASTCLUS DATA=SAS.TEST1_MNS1 OUT=MN1OUT_2 MAXCLUSTERS=11 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 MNP_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
 
 
-/*CLUSTER∫∞ ∫Ûµµ«•*/
-/*∆Û∞Ê¿¸*/
+/*CLUSTERÎ≥Ñ ÎπàÎèÑÌëú*/
+/*ÌèêÍ≤ΩÏ†Ñ*/
 PROC SORT DATA=MN0OUT_1 OUT=MN0SORT;
 BY CLUSTER; RUN;
 PROC FREQ DATA=MN0SORT;
@@ -320,7 +320,7 @@ RUN;
 PROC MEANS DATA=MN0SORT;
 VAR AGE1 G1E_BMI_1 QC_MNC_AGE_1 Q_DRK_FRQ_V09N_1 EXER_1;
 BY CLUSTER; RUN;
-/*∆Û∞Ê»ƒ*/
+/*ÌèêÍ≤ΩÌõÑ*/
 PROC SORT DATA=MN1OUT_1 OUT=MN1SORT;
 BY CLUSTER; RUN;
 PROC FREQ DATA=MN1SORT;
@@ -330,8 +330,8 @@ PROC MEANS DATA=MN1SORT;
 VAR AGE1 G1E_BMI_1 QC_MNC_AGE_1 MNP_AGE_1 Q_DRK_FRQ_V09N_1 EXER_1;
 BY CLUSTER; RUN;
 
-/*CLUSTER∫∞ ≥™¥©±‚*/
-/*∆Û∞Ê¿¸*/
+/*CLUSTERÎ≥Ñ ÎÇòÎàÑÍ∏∞*/
+/*ÌèêÍ≤ΩÏ†Ñ*/
 PROC SQL;
 CREATE TABLE MN0_CLU1 AS
 SELECT * 
@@ -347,7 +347,7 @@ CREATE TABLE MN0_CLU3 AS
 SELECT * 
 FROM MN0OUT_1
 WHERE CLUSTER=3 ; QUIT;
-/*∆Û∞Ê»ƒ*/
+/*ÌèêÍ≤ΩÌõÑ*/
 PROC SQL;
 CREATE TABLE MN1_CLU1 AS
 SELECT * 
@@ -363,7 +363,7 @@ CREATE TABLE MN1_CLU3 AS
 SELECT * 
 FROM MN1OUT_1
 WHERE CLUSTER=3 ; QUIT;
-/*CLUSTER∫∞ OR*/
+/*CLUSTERÎ≥Ñ OR*/
 PROC FREQ DATA=MN0_CLU1;
 TABLES BC*(AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR)/CHISQ RELRISK;
 RUN;
@@ -385,23 +385,23 @@ RUN;
 
 
 
-/*ø‰¿Œ∫∞*C50 or*/
-/*∆Û∞Ê¿¸»ƒ*/
+/*ÏöîÏù∏Î≥Ñ*C50 or*/
+/*ÌèêÍ≤ΩÏ†ÑÌõÑ*/
 PROC FREQ DATA=MN0SORT;
 TABLES C50*(AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR)/CHISQ RELRISK;
 RUN;
 PROC FREQ DATA=MN1SORT;
 TABLES C50*(AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 MNP_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR)/CHISQ RELRISK;
 RUN;
-/*ø‰¿Œ∫∞*BC or*/
-/*∆Û∞Ê¿¸»ƒ*/
-DATA SONG.TEST2; SET SONG.TEMP;
+/*ÏöîÏù∏Î≥Ñ*BC or*/
+/*ÌèêÍ≤ΩÏ†ÑÌõÑ*/
+DATA SAS.TEST2; SET SAS.TEMP;
 IF C50=1 AND D05=1 THEN BC=1;
 ELSE IF C50=0 AND D05=0 THEN BC=0;
 ELSE DELETE;
 RUN;
-PROC FREQ DATA=SONG.TEST2; TABLE BC; RUN; /*BC=0 N=2468706. BC=1 N=4710*/
-DATA SONG.TEST2; SET SONG.TEST2;
+PROC FREQ DATA=SAS.TEST2; TABLE BC; RUN; /*BC=0 N=2468706. BC=1 N=4710*/
+DATA SAS.TEST2; SET SAS.TEST2;
 IF 40<=AGE<50 THEN AGE1=1; ELSE IF 50<=AGE<60 THEN AGE1=2; ELSE IF 60<=AGE<70 THEN AGE1=3;
 IF G1E_BMI<23 THEN G1E_BMI_1=0; ELSE G1E_BMI_1=1;
 IF QC_PHX_BBR_YN=2 THEN QC_PHX_BBR_YN_1=0; ELSE IF QC_PHX_BBR_YN=3 THEN QC_PHX_BBR_YN_1=2; ELSE QC_PHX_BBR_YN_1=1;
@@ -413,23 +413,23 @@ IF QC_BRFD_DRT=1 THEN QC_BRFD_DRT_1=1; ELSE IF QC_BRFD_DRT=2 THEN QC_BRFD_DRT_1=
 IF Q_SMK_YN=1 THEN Q_SMK_YN_1=0; ELSE IF Q_SMK_YN=2 THEN Q_SMK_YN_1=0; ELSE Q_SMK_YN_1=1;
 IF Q_DRK_FRQ_V09N=0 THEN Q_DRK_FRQ_V09N_1=0; ELSE Q_DRK_FRQ_V09N_1=1;
 IF EXER<8 THEN EXER_1=1; ELSE EXER_1=2; RUN;
-data SONG.TEST2_MNS0 SONG.TEST2_MNS1; set SONG.TEST2;
-if MNS_YN_2=0 then output SONG.TEST2_MNS0;
-else output SONG.TEST2_MNS1; run; /*SONG.TEST2_MNS0¿∫(¥¬) 1159442∞≥, SONG.TEST2_MNS1¿∫(¥¬) 1313974∞≥*/
-PROC FREQ DATA=SONG.TEST2_MNS0;
+data SAS.TEST2_MNS0 SAS.TEST2_MNS1; set SAS.TEST2;
+if MNS_YN_2=0 then output SAS.TEST2_MNS0;
+else output SAS.TEST2_MNS1; run; /*SAS.TEST2_MNS0ÏùÄ(Îäî) 1159442Í∞ú, SAS.TEST2_MNS1ÏùÄ(Îäî) 1313974Í∞ú*/
+PROC FREQ DATA=SAS.TEST2_MNS0;
 TABLE MNP_AGE_1 BC; RUN;
-PROC FREQ DATA=SONG.TEST2_MNS1;
+PROC FREQ DATA=SAS.TEST2_MNS1;
 TABLE MNP_AGE_1 BC; RUN;
-PROC FREQ DATA=SONG.TEST2_MNS0;
+PROC FREQ DATA=SAS.TEST2_MNS0;
 TABLES BC*(AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR)/CHISQ RELRISK;
 RUN;
-PROC FREQ DATA=SONG.TEST2_MNS1;
+PROC FREQ DATA=SAS.TEST2_MNS1;
 TABLES BC*(AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 MNP_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR)/CHISQ RELRISK;
 RUN;
 
 
-/*¿Ã∫–«¸µ•¿Ã≈Õ ∏∏µÈ±‚*/
-DATA SONG.TEST1_temp; SET SONG.TEST1;
+/*Ïù¥Î∂ÑÌòïÎç∞Ïù¥ÌÑ∞ ÎßåÎì§Í∏∞*/
+DATA SAS.TEST1_temp; SET SAS.TEST1;
 if age1=1 then do; age1_1=1; age1_2=0; age1_3=0; end;
 if age1=2 then do; age1_1=0; age1_2=1; age1_3=0; end;
 if age1=3 then do; age1_1=0; age1_2=0; age1_3=1; end;
@@ -446,34 +446,34 @@ if cbr_pch_amt=4 then do; amt_1=0; amt_2=0; amt_3=0; amt_4=1; end;
 if mnp_age_1=0 then do; mnp_0=1; mnp_1=0; mnp_2=0; end;
 if mnp_age_1=1 then do; mnp_0=0; mnp_1=1; mnp_2=0; end;
 if mnp_age_1=2 then do; mnp_0=0; mnp_1=0; mnp_2=1; end; run;
-/*∆Û∞Ê¿¸»ƒµ•¿Ã≈Õº¬≥™¥©±‚*/
-data TEST1_temp_MNS0 TEST1_temp_MNS1; set SONG.test1_temp;
+/*ÌèêÍ≤ΩÏ†ÑÌõÑÎç∞Ïù¥ÌÑ∞ÏÖãÎÇòÎàÑÍ∏∞*/
+data TEST1_temp_MNS0 TEST1_temp_MNS1; set SAS.test1_temp;
 if MNS_YN_2=0 then output TEST1_temp_MNS0;
 else output TEST1_temp_MNS1; run;
-/*∆Û∞Ê¿¸±∫¡˝∫–ºÆ*/
-PROC FASTCLUS DATA=TEST1_temp_MNS0 OUT=SONG.MNS0 MAXCLUSTERS=3 MAXITER=100;
+/*ÌèêÍ≤ΩÏ†ÑÍµ∞ÏßëÎ∂ÑÏÑù*/
+PROC FASTCLUS DATA=TEST1_temp_MNS0 OUT=SAS.MNS0 MAXCLUSTERS=3 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
-/*∆Û∞Ê»ƒ±∫¡˝∫–ºÆ*/
-PROC FASTCLUS DATA=TEST1_temp_MNS1 OUT=SONG.MNS1 MAXCLUSTERS=3 MAXITER=100;
+/*ÌèêÍ≤ΩÌõÑÍµ∞ÏßëÎ∂ÑÏÑù*/
+PROC FASTCLUS DATA=TEST1_temp_MNS1 OUT=SAS.MNS1 MAXCLUSTERS=3 MAXITER=100;
 VAR AGE1 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 MNP_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR;
 RUN;
 
-proc freq data=SONG.mns0;
+proc freq data=SAS.mns0;
 tables bc*cluster/cmh; run;
-proc logistic data=SONG.mns0 descending;
+proc logistic data=SAS.mns0 descending;
 class age1_1(ref="1") age1_2(ref="1") age1_3(ref="1") G1E_BMI_1 amt_1(ref="1") amt_2(ref="1") amt_3(ref="1") amt_4(ref="1") bbr_yn_0(ref="1") bbr_yn_1(ref="1") bbr_yn_2(ref="1") 
 QC_MNC_AGE_1(ref="2") QC_DLV_FRQ_1(ref="1") QC_BRFD_DRT_1(ref="1") Q_SMK_YN_1(ref="1") Q_DRK_FRQ_V09N_1(ref="1") EXER_1(ref="1") FAM_CBR(ref="1") bc(ref="1");
 model cluster=age1_1 age1_2 age1_3 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR bc;
 run;
-proc logistic data=SONG.mns1 descending;
+proc logistic data=SAS.mns1 descending;
 class age1_1(ref="1") age1_2(ref="1") age1_3(ref="1") G1E_BMI_1 amt_1(ref="1") amt_2(ref="1") amt_3(ref="1") amt_4(ref="1") bbr_yn_0(ref="1") bbr_yn_1(ref="1") bbr_yn_2(ref="1") 
 QC_MNC_AGE_1(ref="2") mnp_1(ref="1") mnp_2(ref="1") QC_DLV_FRQ_1(ref="1") QC_BRFD_DRT_1(ref="1") Q_SMK_YN_1(ref="1") Q_DRK_FRQ_V09N_1(ref="1") EXER_1(ref="1") FAM_CBR(ref="1") bc(ref="1");
 model cluster=age1_1 age1_2 age1_3 G1E_BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 QC_MNC_AGE_1 mnp_1 mnp_2 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 Q_DRK_FRQ_V09N_1 EXER_1 FAM_CBR bc;
 run;
 
 
-proc phreg data=SONG.MNS0; 
+proc phreg data=SAS.MNS0; 
 class bc(param=ref ref="1") age1_1 (param=ref ref="1") age1_2 (param=ref ref="1") age1_3 (param=ref ref="1")
       G1E_BMI_1 (param=ref)
       amt_1 (param=ref ref="1") amt_2 (param=ref  ref="1") amt_3 (param=ref  ref="1") amt_4 (param=ref  ref="1") 
@@ -492,7 +492,7 @@ q_smk_yn_1 q_drk_frq_v09n_1 exer_1 fam_cbr /risklimits; run;
 ods chtml close;
 ods listing;
 
-proc phreg data=SONG.MNS1; 
+proc phreg data=SAS.MNS1; 
 class bc(param=ref ref="1") age1_1 (param=ref ref="1") age1_2 (param=ref ref="1") age1_3 (param=ref ref="1")
       G1E_BMI_1 (param=ref)
       amt_1 (param=ref ref="1") amt_2 (param=ref  ref="1") amt_3 (param=ref  ref="1") amt_4 (param=ref  ref="1") 
@@ -515,24 +515,24 @@ ods listing;
 
 
 /********************************************************30%data***************************************************************************/
-/*SONG.TEMP¥¬ 70%µ•¿Ã≈Õ*/
-/*SONG.BR_NCS_0910_TEST¥¬ 30%µ•¿Ã≈Õ*/
+/*SAS.TEMPÎäî 70%Îç∞Ïù¥ÌÑ∞*/
+/*SAS.BR_NCS_0910_TESTÎäî 30%Îç∞Ïù¥ÌÑ∞*/
 
-data test; set song.br_ncs_0910_test; run;/*n=1072460*/
+data test; set SAS.br_ncs_0910_test; run;/*n=1072460*/
 DATA test; SET test;
 IF C50=1 THEN BC=1;
 ELSE IF C50=0 AND D05=1 THEN DELETE;
 ELSE IF C50=0 AND D05=0 THEN BC=0;
 RUN; /*n=1071095*/
 PROC FREQ DATA=test; TABLE BC; RUN; /*BC=0 N=1057896. BC=1 N=13199*/
-/*RISK FACTOR ∞·√¯»Æ¿Œ*/
+/*RISK FACTOR Í≤∞Ï∏°ÌôïÏù∏*/
 PROC FREQ DATA=TEST;
 TABLE AGE G1E_BMI CBR_PCH_AMT QC_PHX_BBR_YN QC_MNC_AGE MNS_YN_1 MNP_AGE QC_DLV_FRQ QC_BRFD_DRT Q_SMK_YN Q_DRK_FRQ_V09N EXER FAM_CBR BC/LIST MISSING;
 RUN;
-/*∆Û∞Ê¿¸»ƒµ•¿Ã≈Õº¬≥™¥©±‚*/
+/*ÌèêÍ≤ΩÏ†ÑÌõÑÎç∞Ïù¥ÌÑ∞ÏÖãÎÇòÎàÑÍ∏∞*/
 data TEST_MNS0 TEST_MNS1; set TEST;
 if MNS_YN_1=1 then output TEST_MNS0;
-else output TEST_MNS1; run; /*TEST_MNS0¿∫(¥¬) 503581∞≥,TEST_MNS1¿∫(¥¬) 567514∞≥*/
+else output TEST_MNS1; run; /*TEST_MNS0ÏùÄ(Îäî) 503581Í∞ú,TEST_MNS1ÏùÄ(Îäî) 567514Í∞ú*/
 proc freq data=test_mns0;
 table MNS_YN_1 mnp_age; run;
 proc freq data=test_mns1;
@@ -574,7 +574,7 @@ ELSE DRK_FRQ=2;
 IF EXER<7 THEN EXER1=1;
 ELSE EXER1=2;  RUN;
 
-/*π¸¡÷«¸∫Øºˆ∏∏*/
+/*Î≤îÏ£ºÌòïÎ≥ÄÏàòÎßå*/
 proc sql;
 create table test2_mns0 as
 select age1, bmi, CBR_PCH_AMT, QC_PHX_BBR_YN, MNC_AGE1, QC_DLV_FRQ, QC_BRFD_DRT, Q_SMK_YN, DRK_FRQ, EXER1, FAM_CBR, BC
@@ -605,23 +605,23 @@ IF Q_SMK_YN=1 THEN Q_SMK_YN_1=0; ELSE IF Q_SMK_YN=2 THEN Q_SMK_YN_1=0; ELSE Q_SM
 IF DRK_FRQ=1 THEN DRK_FRQ_1=0; ELSE DRK_FRQ_1=1; RUN;
 
 
-/*∆Û∞Ê¿¸±∫¡˝∫–ºÆ*/
+/*ÌèêÍ≤ΩÏ†ÑÍµ∞ÏßëÎ∂ÑÏÑù*/
 PROC FASTCLUS DATA=test2_mns0 OUT=MNS0_clu MAXCLUSTERS=3 MAXITER=100;
 VAR AGE1 BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 MNC_AGE1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 DRK_FRQ_1 EXER1 FAM_CBR BC;
 RUN;
-/*∆Û∞Ê»ƒ±∫¡˝∫–ºÆ*/
+/*ÌèêÍ≤ΩÌõÑÍµ∞ÏßëÎ∂ÑÏÑù*/
 PROC FASTCLUS DATA=test2_mns1 OUT=MNS1_clu MAXCLUSTERS=3 MAXITER=100;
 VAR AGE1 BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 MNC_AGE1 MNP_AGE1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 DRK_FRQ_1 EXER1 FAM_CBR BC;
 RUN;
 
-/*CLUSTER∫∞ ∫Ûµµ«•*/
-/*∆Û∞Ê¿¸*/
+/*CLUSTERÎ≥Ñ ÎπàÎèÑÌëú*/
+/*ÌèêÍ≤ΩÏ†Ñ*/
 PROC SORT DATA=MNS0_clu OUT=MN0SORT;
 BY CLUSTER; RUN;
 PROC FREQ DATA=MN0SORT;
 TABLE (AGE1 BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 MNC_AGE1 QC_DLV_FRQ_1 QC_BRFD_DRT_1 Q_SMK_YN_1 DRK_FRQ_1 EXER1 FAM_CBR BC)*CLUSTER/CHISQ;
 RUN;
-/*∆Û∞Ê»ƒ*/
+/*ÌèêÍ≤ΩÌõÑ*/
 PROC SORT DATA=MNS1_clu OUT=MN1SORT;
 BY CLUSTER; RUN;
 PROC FREQ DATA=MN1SORT;
@@ -629,7 +629,7 @@ TABLE (AGE1 BMI_1 CBR_PCH_AMT QC_PHX_BBR_YN_1 MNC_AGE1 MNP_AGE1 QC_DLV_FRQ_1 QC_
 RUN;
 
 /*OR&COX*/
-/*¿Ã∫–«¸µ•¿Ã≈Õ ∏∏µÈ±‚*/
+/*Ïù¥Î∂ÑÌòïÎç∞Ïù¥ÌÑ∞ ÎßåÎì§Í∏∞*/
 DATA MN0_OR; SET MN0SORT;
 if age1=1 then do; age1_1=1; age1_2=0; age1_3=0; end;
 if age1=2 then do; age1_1=0; age1_2=1; age1_3=0; end;
@@ -715,20 +715,20 @@ ods listing;
 /************************************************************************************************************************************************************************/
 /************************************************************************************************************************************************************************/
 /*70% data*/
-data song.temp_70; set song.temp; run;
-proc freq data=song.temp_70; table C50 D05; run;
+data SAS.temp_70; set SAS.temp; run;
+proc freq data=SAS.temp_70; table C50 D05; run;
 
-data song.temp_70; set song.temp_70;
+data SAS.temp_70; set SAS.temp_70;
 if C50=1 then BC=1;
 else if C50=0 and D05=0 then BC=0;
 else if C50=0 and D05=1 then delete; run;
-proc freq data=song.temp_70; table age BC; run;
+proc freq data=SAS.temp_70; table age BC; run;
 
-proc freq data=song.temp_70;
+proc freq data=SAS.temp_70;
 table CBR_PCH_AMT QC_PHX_BBR_YN QC_MNC_AGE MNS_YN_1 MNP_AGE QC_DLV_FRQ QC_BRFD_DRT Q_SMK_YN Q_DRK_FRQ_V09N EXER FAM_CBR BC G1E_BMI/LIST MISSING;
 run;
 
-data song.temp_70; set song.temp_70;
+data SAS.temp_70; set SAS.temp_70;
 if AGE<=49 then AGE_1=1; else if 50<=AGE<=59 then AGE_1=2; else if 60<=AGE<=69 then AGE_1=3;
 
 if QC_MNC_AGE<15 then MNC_AGE=1; else if QC_MNC_AGE>=15 then MNC_AGE=2;
@@ -747,13 +747,13 @@ if EXER=0 then EXER_1=0; else if EXER>=1 then EXER_1=1;
 
 if G1E_BMI<23 then BMI=0; else if G1E_BMI>=23 then BMI=1; run;
 
-proc freq data=song.temp_70;
+proc freq data=SAS.temp_70;
 tables AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNS_YN_1 MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR; run;
 
-data song.temp_70; set song.temp_70;
+data SAS.temp_70; set SAS.temp_70;
 FU_YEAR=FU_DAY/365.25; run;
 
-data temp_mns0 temp_mns1; set song.temp_70;
+data temp_mns0 temp_mns1; set SAS.temp_70;
 if MNS_YN_1=1 then output temp_mns0;
 else output temp_mns1; run;
 proc freq data=temp_mns0;
@@ -761,58 +761,58 @@ table MNP_AGE_1; run;
 proc freq data=temp_mns1;
 table MNP_AGE_1; run;
 
-/*∆Û∞Ê¿¸±∫¡˝∫–ºÆ*/
+/*ÌèêÍ≤ΩÏ†ÑÍµ∞ÏßëÎ∂ÑÏÑù*/
 proc fastclus data=temp_mns0 out=mns0_clu maxclusters=3 maxiter=100;
 var AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ;
 run;
-proc sort data=mns0_clu out=song.mns0_sort;
+proc sort data=mns0_clu out=SAS.mns0_sort;
 by cluster; run;
-PROC FREQ DATA=song.mns0_sort;
+PROC FREQ DATA=SAS.mns0_sort;
 TABLE (AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR BC)*CLUSTER/CHISQ;
 RUN;
 
-proc logistic data=song.mns0_sort descending;
+proc logistic data=SAS.mns0_sort descending;
 class AGE_1(ref="2") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1")  
 DLV_FRQ(ref="1") BRFD_DRT(ref="1") SMK_YN(ref="0") DRK_FRQ(ref="1") EXER_1(ref="1") FAM_CBR(ref="1") ;
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR; 
 run;
-proc logistic data=song.mns0_sort descending;
+proc logistic data=SAS.mns0_sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns0_sort; 
+proc phreg data=SAS.mns0_sort; 
 class AGE_1(param=ref ref="2") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1")  
 DLV_FRQ(param=ref ref="1") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="0") DRK_FRQ(param=ref ref="1") EXER_1(param=ref ref="1") 
 FAM_CBR(param=ref ref="1");   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns0_sort;
+proc phreg data=SAS.mns0_sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
 
 
-/*∆Û∞Ê»ƒ±∫¡˝∫–ºÆ*/
+/*ÌèêÍ≤ΩÌõÑÍµ∞ÏßëÎ∂ÑÏÑù*/
 proc fastclus data=temp_mns1 out=mns1_clu maxclusters=3 maxiter=100;
 var AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR;
 run;
-proc sort data=mns1_clu out=song.mns1_sort;
+proc sort data=mns1_clu out=SAS.mns1_sort;
 by cluster; run;
-PROC FREQ DATA=song.mns1_sort;
+PROC FREQ DATA=SAS.mns1_sort;
 TABLE (AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR BC)*CLUSTER/CHISQ;
 RUN;
 
-proc logistic data=song.mns1_sort descending;
+proc logistic data=SAS.mns1_sort descending;
 class AGE_1(ref="2") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1") MNP_AGE_1(ref="1")  
 DLV_FRQ(ref="1") BRFD_DRT(ref="1") SMK_YN(ref="0") DRK_FRQ(ref="1") EXER_1(ref="1") FAM_CBR(ref="1") ;
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ; 
 run;
-proc logistic data=song.mns1_sort descending;
+proc logistic data=SAS.mns1_sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns1_sort;
+proc phreg data=SAS.mns1_sort;
 class AGE_1(param=ref ref="2") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1") MNP_AGE_1(param=ref ref="1") 
 DLV_FRQ(param=ref ref="1") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="0") DRK_FRQ(param=ref ref="1") EXER_1(param=ref ref="1") 
 FAM_CBR(param=ref ref="1");   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns1_sort;
+proc phreg data=SAS.mns1_sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
 
@@ -831,7 +831,7 @@ else if QC_DLV_FRQ=. then delete; /**/
 else if QC_BRFD_DRT=. then delete; /**/
 else if QC_OPLL_YN=. then delete; 
 else if G1E_HGHT=. then delete; 
-else if G1E_WGHT=. then delete;  /*≈∞, ∏ˆπ´∞‘¥¬ √º¡˙∑Æ¡ˆºˆ∑Œ ¥Î√º*/
+else if G1E_WGHT=. then delete;  /*ÌÇ§, Î™∏Î¨¥Í≤åÎäî Ï≤¥ÏßàÎüâÏßÄÏàòÎ°ú ÎåÄÏ≤¥*/
 else if G1E_BP_SYS=. then delete; 
 else if G1E_BP_DIA=. then delete; 
 else if G1E_HGB=. then delete; 
@@ -848,41 +848,41 @@ else if Q_SMK_YN=. then delete;  /**/
 else if Q_DRK_FRQ_V09N=. then delete;  /**/
 else if EXER=. then delete;  /**/
 else if FAM_CBR=. then delete;  /**/
-run;  /*WORK.TEMP¿∫(¥¬) 4110781∞≥ ∞¸√¯∞™∞˙ 129∞≥ ∫Øºˆ*/
+run;  /*WORK.TEMPÏùÄ(Îäî) 4110781Í∞ú Í¥ÄÏ∏°Í∞íÍ≥º 129Í∞ú Î≥ÄÏàò*/
 data TEMP; set TEMP;
     if INDI_DSCM_NO="" then delete; else if FU_DAY<180 then delete; else if RVSN_ADDR_CD="" then delete; 
     if AGE<40 then delete; else if AGE>69 then delete; 
-run; /*WORK.TEMP¿∫(¥¬) 3574866∞≥ ∞¸√¯∞™∞˙ 129∞≥ ∫Øºˆ*/
+run; /*WORK.TEMPÏùÄ(Îäî) 3574866Í∞ú Í¥ÄÏ∏°Í∞íÍ≥º 129Í∞ú Î≥ÄÏàò*/
 data TEMP; set TEMP; 
 SIDO_1=substr(RVSN_ADDR_CD,1,2); drop RVSN_ADDR_CD; 
 HME_M=month(HME_DT); drop HME_DT; run; 
 proc sort data=TEMP; by AGE EXMD_BZ_YYYY SIDO_1 HME_M QC_MNS_YN; run; 
 
-data song.BR_NCS_09_10_ALL; set temp; run;
-data test; set song.BR_NCS_09_10_ALL; run;
+data SAS.BR_NCS_09_10_ALL; set temp; run;
+data test; set SAS.BR_NCS_09_10_ALL; run;
 
 proc sql;
 create table test_30 as
 select *
-from test one left join song.temp two
+from test one left join SAS.temp two
 on one.INDI_DSCM_NO=two.INDI_DSCM_NO
 where two.INDI_DSCM_NO is null;
 quit;
-data song.temp_30; set test_30; run;
+data SAS.temp_30; set test_30; run;
 
 proc freq data=test_30; table C50 D05; run;
 
-data song.test_30; set test_30;
+data SAS.test_30; set test_30;
 if C50=1 then BC=1;
 else if C50=0 and D05=0 then BC=0;
 else if C50=0 and D05=1 then delete; run;
-proc freq data=song.test_30; table age BC; run;
+proc freq data=SAS.test_30; table age BC; run;
 
-proc freq data=song.test_30;
+proc freq data=SAS.test_30;
 table CBR_PCH_AMT QC_PHX_BBR_YN QC_MNC_AGE MNS_YN_1 MNP_AGE QC_DLV_FRQ QC_BRFD_DRT Q_SMK_YN Q_DRK_FRQ_V09N EXER FAM_CBR BC G1E_BMI/LIST MISSING;
 run;
 
-data song.test_30; set song.test_30;
+data SAS.test_30; set SAS.test_30;
 if AGE<=49 then AGE_1=1; else if 50<=AGE<=59 then AGE_1=2; else if 60<=AGE<=69 then AGE_1=3;
 
 if QC_MNC_AGE<15 then MNC_AGE=1; else if QC_MNC_AGE>=15 then MNC_AGE=2;
@@ -901,13 +901,13 @@ if EXER=0 then EXER_1=0; else if EXER>=1 then EXER_1=1;
 
 if G1E_BMI<23 then BMI=0; else if G1E_BMI>=23 then BMI=1; run;
 
-proc freq data=song.test_30;
+proc freq data=SAS.test_30;
 tables AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNS_YN_1 MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR; run;
 
-data song.test_30; set song.test_30;
+data SAS.test_30; set SAS.test_30;
 FU_YEAR=FU_DAY/365.25; run;
 
-data temp_mns0 temp_mns1; set song.test_30;
+data temp_mns0 temp_mns1; set SAS.test_30;
 if MNS_YN_1=1 then output temp_mns0;
 else output temp_mns1; run;
 proc freq data=temp_mns0;
@@ -915,58 +915,58 @@ table MNP_AGE_1; run;
 proc freq data=temp_mns1;
 table MNP_AGE_1; run;
 
-/*∆Û∞Ê¿¸±∫¡˝∫–ºÆ*/
+/*ÌèêÍ≤ΩÏ†ÑÍµ∞ÏßëÎ∂ÑÏÑù*/
 proc fastclus data=temp_mns0 out=mns0_clu maxclusters=3 maxiter=100;
 var AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ;
 run;
-proc sort data=mns0_clu out=song.mns0_30sort;
+proc sort data=mns0_clu out=SAS.mns0_30sort;
 by cluster; run;
-PROC FREQ DATA=song.mns0_30sort;
+PROC FREQ DATA=SAS.mns0_30sort;
 TABLE (AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR BC)*CLUSTER/CHISQ;
 RUN;
 
-proc logistic data=song.mns0_30sort descending;
+proc logistic data=SAS.mns0_30sort descending;
 class AGE_1(ref="2") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1")  
 DLV_FRQ(ref="1") BRFD_DRT(ref="1") SMK_YN(ref="0") DRK_FRQ(ref="1") EXER_1(ref="1") FAM_CBR(ref="1");
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ; 
 run;
-proc logistic data=song.mns0_30sort descending;
+proc logistic data=SAS.mns0_30sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns0_30sort; 
+proc phreg data=SAS.mns0_30sort; 
 class AGE_1(param=ref ref="2") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1")  
 DLV_FRQ(param=ref ref="1") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="0") DRK_FRQ(param=ref ref="1") EXER_1(param=ref ref="1") 
 FAM_CBR(param=ref ref="1") ;   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns0_30sort;
+proc phreg data=SAS.mns0_30sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
 
 
-/*∆Û∞Ê»ƒ±∫¡˝∫–ºÆ*/
+/*ÌèêÍ≤ΩÌõÑÍµ∞ÏßëÎ∂ÑÏÑù*/
 proc fastclus data=temp_mns1 out=mns1_clu maxclusters=3 maxiter=100;
 var AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ;
 run;
-proc sort data=mns1_clu out=song.mns1_30sort;
+proc sort data=mns1_clu out=SAS.mns1_30sort;
 by cluster; run;
-PROC FREQ DATA=song.mns1_30sort;
+PROC FREQ DATA=SAS.mns1_30sort;
 TABLE (AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR BC)*CLUSTER/CHISQ;
 RUN;
 
-proc logistic data=song.mns1_30sort descending;
+proc logistic data=SAS.mns1_30sort descending;
 class AGE_1(ref="2") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1") MNP_AGE_1(ref="1")  
 DLV_FRQ(ref="1") BRFD_DRT(ref="1") SMK_YN(ref="0") DRK_FRQ(ref="1") EXER_1(ref="1") FAM_CBR(ref="1") ;
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ; 
 run;
-proc logistic data=song.mns1_30sort descending;
+proc logistic data=SAS.mns1_30sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns1_30sort;
+proc phreg data=SAS.mns1_30sort;
 class AGE_1(param=ref ref="2") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1") MNP_AGE_1(param=ref ref="1") 
 DLV_FRQ(param=ref ref="1") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="0") DRK_FRQ(param=ref ref="1") EXER_1(param=ref ref="1") 
 FAM_CBR(param=ref ref="1") ;   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns1_30sort;
+proc phreg data=SAS.mns1_30sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
 
@@ -976,72 +976,72 @@ model FU_YEAR*bc(0) =cluster/risklimits; run;
 
 /********************************************************************************************************************************************/
 /*70% ref*/
-/*¿¸*/
-proc logistic data=song.mns0_sort descending;
+/*Ï†Ñ*/
+proc logistic data=SAS.mns0_sort descending;
 class AGE_1(ref="3") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1")  
 DLV_FRQ(ref="0") BRFD_DRT(ref="1") SMK_YN(ref="1") DRK_FRQ(ref="0") EXER_1(ref="0") FAM_CBR(ref="1") ;
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR; 
 run;
-proc logistic data=song.mns0_sort descending;
+proc logistic data=SAS.mns0_sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns0_sort; 
+proc phreg data=SAS.mns0_sort; 
 class AGE_1(param=ref ref="3") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1")  
 DLV_FRQ(param=ref ref="0") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="1") DRK_FRQ(param=ref ref="0") EXER_1(param=ref ref="0") 
 FAM_CBR(param=ref ref="1");   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns0_sort;
+proc phreg data=SAS.mns0_sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
-/*»ƒ*/
-proc logistic data=song.mns1_sort descending;
+/*ÌõÑ*/
+proc logistic data=SAS.mns1_sort descending;
 class AGE_1(ref="3") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1") MNP_AGE_1(ref="1")  
 DLV_FRQ(ref="0") BRFD_DRT(ref="1") SMK_YN(ref="1") DRK_FRQ(ref="0") EXER_1(ref="0") FAM_CBR(ref="1") ;
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ; 
 run;
-proc logistic data=song.mns1_sort descending;
+proc logistic data=SAS.mns1_sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns1_sort;
+proc phreg data=SAS.mns1_sort;
 class AGE_1(param=ref ref="3") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1") MNP_AGE_1(param=ref ref="1") 
 DLV_FRQ(param=ref ref="0") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="1") DRK_FRQ(param=ref ref="0") EXER_1(param=ref ref="0") 
 FAM_CBR(param=ref ref="1");   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns1_sort;
+proc phreg data=SAS.mns1_sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
 /*30% ref*/
-/*¿¸*/
-proc logistic data=song.mns0_30sort descending;
+/*Ï†Ñ*/
+proc logistic data=SAS.mns0_30sort descending;
 class AGE_1(ref="3") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1")  
 DLV_FRQ(ref="0") BRFD_DRT(ref="1") SMK_YN(ref="1") DRK_FRQ(ref="0") EXER_1(ref="0") FAM_CBR(ref="1");
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ; 
 run;
-proc logistic data=song.mns0_30sort descending;
+proc logistic data=SAS.mns0_30sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns0_30sort; 
+proc phreg data=SAS.mns0_30sort; 
 class AGE_1(param=ref ref="3") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1")  
 DLV_FRQ(param=ref ref="0") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="1") DRK_FRQ(param=ref ref="0") EXER_1(param=ref ref="0") 
 FAM_CBR(param=ref ref="1") ;   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns0_30sort;
+proc phreg data=SAS.mns0_30sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
-/*»ƒ*/
-proc logistic data=song.mns1_30sort descending;
+/*ÌõÑ*/
+proc logistic data=SAS.mns1_30sort descending;
 class AGE_1(ref="2") BMI(ref="0") CBR_PCH_AMT(ref="1") QC_PHX_BBR_YN(ref="1") MNC_AGE(ref="1") MNP_AGE_1(ref="1")  
 DLV_FRQ(ref="1") BRFD_DRT(ref="1") SMK_YN(ref="0") DRK_FRQ(ref="1") EXER_1(ref="1") FAM_CBR(ref="1") ;
 model bc = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR ; 
 run;
-proc logistic data=song.mns1_30sort descending;
+proc logistic data=SAS.mns1_30sort descending;
 class cluster(ref="1");
 model bc=cluster; run;
-proc phreg data=song.mns1_30sort;
+proc phreg data=SAS.mns1_30sort;
 class AGE_1(param=ref ref="2") BMI(param=ref ref="0") CBR_PCH_AMT(param=ref ref="1") QC_PHX_BBR_YN(param=ref ref="1") MNC_AGE(param=ref ref="1") MNP_AGE_1(param=ref ref="1") 
 DLV_FRQ(param=ref ref="1") BRFD_DRT(param=ref ref="1") SMK_YN(param=ref ref="0") DRK_FRQ(param=ref ref="1") EXER_1(param=ref ref="1") 
 FAM_CBR(param=ref ref="1") ;   
 model FU_YEAR*bc(0) = AGE_1 BMI CBR_PCH_AMT QC_PHX_BBR_YN MNC_AGE MNP_AGE_1 DLV_FRQ BRFD_DRT SMK_YN DRK_FRQ EXER_1 FAM_CBR /risklimits; run;
-proc phreg data=song.mns1_30sort;
+proc phreg data=SAS.mns1_30sort;
 class CLUSTER(param=ref ref="1");
 model FU_YEAR*bc(0) =cluster/risklimits; run;
